@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	err := x.Connect(":0")
+	err := x.Connect(os.Getenv("DISPLAY"))
 	if err != nil {
 		os.Exit(1)
 	}
@@ -36,7 +36,7 @@ func main() {
 				Crtc: c.Crtc,
 				Mode: profile.Mode{
 					Resolution: fmt.Sprintf("%dx%d", c.Mode.Resolution[0], c.Mode.Resolution[1]),
-					RateHint:   &rateRounded,
+					RateHint:   rateRounded,
 					FlagsHint:  c.Mode.Flags.ToProfileModeFlags(),
 				},
 				Panning:  fmt.Sprintf("%dx%d", c.Panning[0], c.Panning[1]),

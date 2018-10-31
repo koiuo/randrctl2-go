@@ -51,7 +51,7 @@ type Rule struct {
 
 type Mode struct {
 	Resolution string     `yaml:"resolution"`
-	RateHint   *float64   `yaml:"ratehint,omitempty"`
+	RateHint   float64    `yaml:"ratehint,omitempty"`
 	FlagsHint  []ModeFlag `yaml:"flaghint,omitempty"`
 }
 

@@ -30,26 +30,28 @@ func TestWrite(t *testing.T) {
 			Profile{
 				Outputs: map[string]*Output{
 					"LVDS1": {
-						Mode:    "1920x1080",
-						Pos:     "1920x0",
-						Rotate:  "normal",
-						Panning: "1920x1200",
-						Scale:   "1.4x1.4",
-						Rate:    "75",
-						Crtc:    0,
+						Crtc: 0,
+						Mode: Mode{
+							Resolution: "1920x1080",
+						},
+						Panning:  "1920x1200",
+						Position: "1920x0",
+						Rotation: []Rotation{Rotate0},
+						Scale:    1.4,
 					},
 				},
 			},
 			`
 			outputs:
 			  LVDS1:
-			    mode: 1920x1080
-			    pos: 1920x0
-			    rotate: normal
-			    panning: 1920x1200
-			    scale: 1.4x1.4
-			    rate: "75"
 			    crtc: 0
+			    mode:
+			      resolution: 1920x1080
+			    panning: 1920x1200
+			    position: 1920x0
+			    rotation:
+			    - rotate0
+			    scale: 1.4
 			`,
 			assert.NoError,
 		},
@@ -71,22 +73,33 @@ func TestWrite(t *testing.T) {
 				},
 				Outputs: map[string]*Output{
 					"LVDS1": {
-						Mode:    "1920x1080",
-						Pos:     "0x0",
-						Rotate:  "normal",
-						Panning: "1920x1200",
-						Scale:   "1.4x1.4",
-						Rate:    "75",
-						Crtc:    0,
+						Crtc: 0,
+						Mode: Mode{
+							Resolution: "1920x1080",
+							RateHint: 60,
+							FlagsHint: []ModeFlag{
+								HsyncPositive,
+								VsyncNegative,
+							},
+						},
+						Panning:  "1920x1200",
+						Position: "0x0",
+						Rotation: []Rotation{Rotate0},
+						Scale:    1.4,
 					},
 					"DP1": {
-						Mode:    "3840x2160",
-						Pos:     "1920x0",
-						Rotate:  "right",
-						Panning: "3840x2160",
-						Scale:   "2x2",
-						Rate:    "75",
-						Crtc:    1,
+						Crtc: 1,
+						Mode: Mode{
+							Resolution: "3840x2160",
+							RateHint: 60,
+							FlagsHint: []ModeFlag{
+								Interlace,
+							},
+						},
+						Panning:  "3840x2160",
+						Position: "1920x0",
+						Rotation: []Rotation{Rotate270, ReflectY},
+						Scale:    2,
 					},
 				},
 				Primary: "DP1",
@@ -103,21 +116,31 @@ func TestWrite(t *testing.T) {
 			    supports: 1920x1080
 			outputs:
 			  DP1:
-			    mode: 3840x2160
-			    pos: 1920x0
-			    rotate: right
-			    panning: 3840x2160
-			    scale: 2x2
-			    rate: "75"
 			    crtc: 1
+			    mode:
+			      resolution: 3840x2160
+			      ratehint: 60
+			      flaghint:
+			      - interlace
+			    panning: 3840x2160
+			    position: 1920x0
+			    rotation:
+			    - rotate270
+			    - reflecty
+			    scale: 2
 			  LVDS1:
-			    mode: 1920x1080
-			    pos: "0x0"
-			    rotate: normal
-			    panning: 1920x1200
-			    scale: 1.4x1.4
-			    rate: "75"
 			    crtc: 0
+			    mode:
+			      resolution: 1920x1080
+			      ratehint: 60
+			      flaghint:
+			      - hsync+
+			      - vsync-
+			    panning: 1920x1200
+			    position: "0x0"
+			    rotation:
+			    - rotate0
+			    scale: 1.4
 			primary: DP1
 			`,
 			assert.NoError,
