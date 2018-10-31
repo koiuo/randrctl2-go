@@ -4,7 +4,7 @@ import (
 	"github.com/BurntSushi/xgb"
 	"github.com/BurntSushi/xgb/randr"
 	"github.com/BurntSushi/xgb/xproto"
-	"github.com/edio/randrctl/profile"
+	"github.com/edio/randrctl2/profile"
 )
 
 type XError struct {

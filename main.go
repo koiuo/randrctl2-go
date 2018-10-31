@@ -3,8 +3,8 @@ package main
 import (
 	"crypto/md5"
 	"fmt"
-	"github.com/edio/randrctl/profile"
-	"github.com/edio/randrctl/x"
+	"github.com/edio/randrctl2/profile"
+	"github.com/edio/randrctl2/x"
 	"math"
 
 	"gopkg.in/yaml.v2"
