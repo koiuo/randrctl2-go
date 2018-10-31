@@ -11,7 +11,10 @@ import (
 	"os"
 )
 
+var version string
+
 func main() {
+	fmt.Fprintf(os.Stderr, "randrctl %s\n", version)
 	err := x.Connect(os.Getenv("DISPLAY"))
 	if err != nil {
 		os.Exit(1)
