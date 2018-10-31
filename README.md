@@ -1,5 +1,7 @@
 # randrctl2
 
+[![Build Status](https://travis-ci.org/edio/randrctl2.svg?branch=master)](https://travis-ci.org/edio/randrctl2)
+
 An attempt to rewrite [randrctl](https://github.com/edio/randrctl) in more suitable language using low(er)-level X api
 
 ## Goals
