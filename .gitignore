@@ -2,4 +2,5 @@ bin/
 release/
 *.iml
 .idea/
+coverage.txt
 
