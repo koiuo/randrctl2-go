@@ -4,7 +4,6 @@ import (
 	"github.com/BurntSushi/xgb"
 	"github.com/BurntSushi/xgb/randr"
 	"github.com/BurntSushi/xgb/xproto"
-	"github.com/edio/randrctl2/profile"
 )
 
 type XError struct {
@@ -65,53 +64,6 @@ type Geometry [2]int
 
 type ModeFlags uint32
 
-func (f ModeFlags) ToProfileModeFlags() []profile.ModeFlag {
-	flags := make([]profile.ModeFlag, 0)
-	if f&randr.ModeFlagHsyncPositive != 0 {
-		flags = append(flags, profile.HsyncPositive)
-	}
-	if f&randr.ModeFlagHsyncNegative != 0 {
-		flags = append(flags, profile.HsyncNegative)
-	}
-	if f&randr.ModeFlagVsyncPositive != 0 {
-		flags = append(flags, profile.VsyncPositive)
-	}
-	if f&randr.ModeFlagVsyncNegative != 0 {
-		flags = append(flags, profile.VsyncNegative)
-	}
-	if f&randr.ModeFlagInterlace != 0 {
-		flags = append(flags, profile.Interlace)
-	}
-	if f&randr.ModeFlagDoubleScan != 0 {
-		flags = append(flags, profile.DoubleScan)
-	}
-	if f&randr.ModeFlagCsync != 0 {
-		flags = append(flags, profile.Csync)
-	}
-	if f&randr.ModeFlagCsyncPositive != 0 {
-		flags = append(flags, profile.CsyncPositive)
-	}
-	if f&randr.ModeFlagCsyncNegative != 0 {
-		flags = append(flags, profile.CsyncNegative)
-	}
-	if f&randr.ModeFlagHskewPresent != 0 {
-		flags = append(flags, profile.HskewPresent)
-	}
-	if f&randr.ModeFlagBcast != 0 {
-		flags = append(flags, profile.Bcast)
-	}
-	if f&randr.ModeFlagPixelMultiplex != 0 {
-		flags = append(flags, profile.PixelMultiplex)
-	}
-	if f&randr.ModeFlagDoubleClock != 0 {
-		flags = append(flags, profile.DoubleClock)
-	}
-	if f&randr.ModeFlagHalveClock != 0 {
-		flags = append(flags, profile.HalveClock)
-	}
-	return flags
-}
-
 type Mode struct {
 	Resolution Geometry
 	Rate       float64
@@ -122,32 +74,9 @@ type OutputId uint32
 
 type RotationFlags uint16
 
-func (rf RotationFlags) ToProfileRotation() []profile.Rotation {
-	rotation := make([]profile.Rotation, 0)
-	if rf&randr.RotationRotate0 != 0 {
-		rotation = append(rotation, profile.Rotate0)
-	}
-	if rf&randr.RotationRotate90 != 0 {
-		rotation = append(rotation, profile.Rotate90)
-	}
-	if rf&randr.RotationRotate180 != 0 {
-		rotation = append(rotation, profile.Rotate180)
-	}
-	if rf&randr.RotationRotate270 != 0 {
-		rotation = append(rotation, profile.Rotate270)
-	}
-	if rf&randr.RotationReflectX != 0 {
-		rotation = append(rotation, profile.ReflectX)
-	}
-	if rf&randr.RotationReflectY != 0 {
-		rotation = append(rotation, profile.ReflectY)
-	}
-	return rotation
-}
-
 type Output struct {
-	Id   OutputId
-	Name string
+	Id             OutputId
+	Name           string
 	Crtc           int
 	Edid           []byte
 	SupportedModes []*Mode
@@ -205,6 +134,7 @@ func GetConnectedOutputs() ([]*Output, error) {
 		}
 
 		output := Output{
+			Id:   OutputId(outputId),
 			Name: string(outputInfo.Name),
 		}
 

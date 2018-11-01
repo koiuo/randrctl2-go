@@ -79,18 +79,3 @@ func Read(reader io.Reader) (*Profile, error) {
 	err := dec.Decode(&p)
 	return &p, err
 }
-
-//func FromConnections(connections []*x.Output) (*Profile, error) {
-//	outputs := make([]*Output, len(connections))
-//	for i, connection := range connections {
-//		println(connection)
-//		outputs[i] = &Output{
-//			//Mode: connection.Mode
-//		}
-//	}
-//	return nil, nil
-//}
-
-func serializeGeometry() {
-
-}

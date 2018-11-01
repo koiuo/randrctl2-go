@@ -4,6 +4,7 @@ BINARY=${BINDIR}/${EXECUTABLE}
 VERSION=$(shell git describe 2>/dev/null || echo "0.0.0")
 RELEASE=release
 RELEASE_FORMAT=${BINARY}-${GOOS}-${GOARCH}-${VERSION}.tar.gz
+PACKAGE="github.com/edio/randrctl2"
 
 default: bin
 .PHONY: bin
@@ -19,7 +20,7 @@ release-dir:
 
 ${RELEASE}/%-${VERSION}.tar.gz: | release-dir
 	GOOS=$(shell echo $* | cut -d '-' -f 2) GOARCH=$(shell echo $* | cut -d '-' -f 3) \
-	go build -ldflags="-s -w -X main.version=${VERSION} -v" -o ${RELEASE}/${EXECUTABLE}
+	go build -ldflags="-s -w -X ${PACKAGE}/cmd.version=${VERSION} -v" -o ${RELEASE}/${EXECUTABLE}
 	tar -C ${RELEASE} -czf $@ ${EXECUTABLE}
 	rm ${RELEASE}/${EXECUTABLE}
 
@@ -28,7 +29,7 @@ bin-dir:
 	mkdir -p ${BINDIR}
 
 ${BINARY}: bin-dir
-	go build -ldflags="-s -w -X main.version=${VERSION} -v" -o $@
+	go build -ldflags="-s -w -X ${PACKAGE}/cmd.version=${VERSION} -v" -o $@
 
 .PHONY: lint
 lint:
