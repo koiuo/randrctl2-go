@@ -51,8 +51,9 @@ func Execute() {
 		ProfilesDir: filepath.Join(configDir, "profiles"),
 	}
 	rootCmd := RootCmd(vpr, ctx)
-	rootCmd.AddCommand(VersionCmd(ctx))
 	rootCmd.AddCommand(CatCmd(ctx))
+	rootCmd.AddCommand(ListCmd(ctx))
+	rootCmd.AddCommand(VersionCmd(ctx))
 
 	if err := rootCmd.Execute(); err != nil {
 		switch err.(type) {

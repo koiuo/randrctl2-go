@@ -7,9 +7,7 @@ import (
 	"github.com/edio/randrctl2/x"
 	"github.com/spf13/cobra"
 	"io"
-	"io/ioutil"
 	"os"
-	"path/filepath"
 )
 
 func CatCmd(ctx *Context) *cobra.Command {
@@ -50,14 +48,9 @@ func asRaw(writer io.Writer, reader io.Reader) error {
 }
 
 func catSaved(ctx *Context, profileName string, writeAs func(writer io.Writer, reader io.Reader) error) error {
-	files, err := ioutil.ReadDir(ctx.ProfilesDir)
-	if err != nil {
-		return err
-	}
-
-	for _, file := range files {
-		if !file.IsDir() && file.Name() == profileName {
-			profileFile, err := os.OpenFile(filepath.Join(ctx.ProfilesDir, file.Name()), os.O_RDONLY, 0)
+	for _, file := range lib.ListFiles(ctx.ProfilesDir) {
+		if file.Name == profileName {
+			profileFile, err := os.OpenFile(file.Path, os.O_RDONLY, 0)
 			if err != nil {
 				return err
 			}
