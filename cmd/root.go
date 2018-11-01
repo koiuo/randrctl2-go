@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/edio/randrctl2/lib"
 	"github.com/edio/randrctl2/x"
 	"github.com/mitchellh/go-homedir"
 	log "github.com/sirupsen/logrus"
@@ -57,8 +58,10 @@ func Execute() {
 
 	if err := rootCmd.Execute(); err != nil {
 		switch err.(type) {
-		case *x.XError:
+		case lib.SimpleError:
 			os.Exit(2)
+		case *x.XError:
+			os.Exit(64)
 		default:
 			rootCmd.Usage()
 			os.Exit(1)

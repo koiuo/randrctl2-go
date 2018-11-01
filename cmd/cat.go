@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/edio/randrctl2/lib"
 	"github.com/edio/randrctl2/profile"
 	"github.com/edio/randrctl2/x"
@@ -57,7 +56,7 @@ func catSaved(ctx *Context, profileName string, writeAs func(writer io.Writer, r
 			return writeAs(ctx.Stdout, profileFile)
 		}
 	}
-	return fmt.Errorf("%s: no such profile", profileName)
+	return lib.SimpleErrorf("%s: no such profile", profileName)
 }
 
 func catActive(ctx *Context) error {
